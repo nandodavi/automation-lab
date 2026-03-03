@@ -1,6 +1,12 @@
-# Market Data Pipeline & Streamlit Dashboard
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
+![SQLite](https://img.shields.io/badge/Database-SQLite-lightgrey)
+![Status](https://img.shields.io/badge/Status-Active-success)
+![Dashboard](docs/dashboard.png)
 
-End-to-end data engineering mini-project that builds a historical market dataset (daily) from multiple sources, stores it in SQLite, and serves an interactive Streamlit dashboard with filters, normalized performance, and daily returns.
+# 📊 Market Data Pipeline & Streamlit Dashboard
+
+End-to-end data engineering mini-project that builds...
 
 ## ✅ What this project does
 
