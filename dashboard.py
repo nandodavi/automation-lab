@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import numpy as np
 
 DB = Path("data/market.db")
 TABLE_DAILY = "asset_daily"
@@ -117,6 +118,22 @@ if df.empty:
 
 df = add_metrics(df)
 
+# ---------------- Correlation & Volatility ----------------
+
+# Pivot returns
+returns_df = (
+    df.dropna(subset=["daily_return"])
+      .pivot(index="date", columns="asset", values="daily_return")
+)
+
+# Correlation matrix
+corr_matrix = returns_df.corr()
+
+# Volatility (annualized)
+volatility = returns_df.std() * np.sqrt(252)
+volatility_df = volatility.reset_index()
+volatility_df.columns = ["asset", "annualized_volatility"]
+
 # ---------------- Layout ----------------
 c1, c2, c3 = st.columns(3)
 c1.metric("Período (dias)", (pd.to_datetime(end_date) - pd.to_datetime(start_date)).days + 1)
@@ -175,3 +192,31 @@ with right:
         use_container_width=True,
         height=420,
     )
+st.divider()
+st.header("📊 Risk & Correlation Analysis")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Correlation Heatmap (Daily Returns)")
+    fig_corr = px.imshow(
+        corr_matrix,
+        text_auto=".2f",
+        aspect="auto",
+        color_continuous_scale="RdBu",
+        zmin=-1,
+        zmax=1,
+    )
+    st.plotly_chart(fig_corr, use_container_width=True)
+
+with col2:
+    st.subheader("Annualized Volatility")
+    fig_vol = px.bar(
+        volatility_df,
+        x="asset",
+        y="annualized_volatility",
+        text="annualized_volatility",
+    )
+    fig_vol.update_traces(texttemplate="%.2f", textposition="outside")
+    fig_vol.update_layout(yaxis_title="Volatility (Annualized)")
+    st.plotly_chart(fig_vol, use_container_width=True)      
