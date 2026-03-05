@@ -90,10 +90,10 @@ Primary Key: `(date, asset)`
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+```
+## Future Improvements
 
-## Roadmap
-
-Planned improvements:
+Planned enhancements for the next iterations:
 
 - Automated pipeline execution
 - Rolling volatility metrics
