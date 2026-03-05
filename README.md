@@ -42,6 +42,31 @@ SQLite (data/market.db)
 ↓
 Streamlit (dashboard.py)
 
+## Data Pipeline Architecture
+
+The project follows a modular ETL architecture:
+
+1. Extract
+   - Collect historical market data
+   - CoinGecko API (crypto)
+   - Yahoo Finance via yfinance (indexes and commodities)
+
+2. Transform
+   - Convert raw JSON data into a normalized daily dataset
+   - Standardize asset names and asset types
+   - Calculate derived metrics such as daily returns
+
+3. Load
+   - Persist the dataset into a SQLite database
+   - Table: asset_daily
+   - Composite primary key: (date, asset)
+
+4. Analytics Layer
+   - Streamlit dashboard
+   - Interactive filters
+   - Normalized performance comparison
+   - Correlation heatmap
+   - Annualized volatility
 
 ## 🗃 Database schema
 
